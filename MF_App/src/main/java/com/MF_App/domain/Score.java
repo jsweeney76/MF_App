@@ -14,10 +14,10 @@ public class Score implements Serializable
 	private static final long serialVersionUID = -142180557196028404L;
 	private Integer id;
 	private Integer user_ID;
-	private int task1;
-	private int task2;
-	private int task3;
-	private int task4;
+	private int calmScore;
+	private int focusScore;
+	private int engagedScore;
+	private int integratedScore;
 	private int BioQ;
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -41,46 +41,46 @@ public class Score implements Serializable
 		this.user_ID = user_ID;
 	}
 	
-	public int getTask1() 
+	public int getCalmScore() 
 	{
-		return task1;
+		return calmScore;
 	}
-	
-	public void setTask1(int task1) 
+
+	public void setCalmScore(int calmScore) 
 	{
-		this.task1 = task1;
+		this.calmScore = calmScore;
 	}
-	
-	public int getTask2() 
+
+	public int getFocusScore() 
 	{
-		return task2;
+		return focusScore;
 	}
-	
-	public void setTask2(int task2) 
+
+	public void setFocusScore(int focusScore) 
 	{
-		this.task2 = task2;
+		this.focusScore = focusScore;
 	}
-	
-	public int getTask3() 
+
+	public int getEngagedScore() 
 	{
-		return task3;
+		return engagedScore;
 	}
-	
-	public void setTask3(int task3) 
+
+	public void setEngagedScore(int engagedScore) 
 	{
-		this.task3 = task3;
+		this.engagedScore = engagedScore;
 	}
-	
-	public int getTask4() 
+
+	public int getIntegratedScore() 
 	{
-		return task4;
+		return integratedScore;
 	}
-	
-	public void setTask4(int task4) 
+
+	public void setIntegratedScore(int integratedScore) 
 	{
-		this.task4 = task4;
+		this.integratedScore = integratedScore;
 	}
-	
+
 	public int getBioQ() 
 	{
 		return BioQ;
