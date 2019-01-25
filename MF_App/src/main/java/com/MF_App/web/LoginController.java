@@ -1,16 +1,15 @@
-package com.MF_App;
+package com.MF_App.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class DashboardController 
+public class LoginController 
 {
-	
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String rootView()
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login()
 	{
-		return "index";
+		return "login";
 	}
 }

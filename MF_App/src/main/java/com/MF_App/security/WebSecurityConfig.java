@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
 		auth.inMemoryAuthentication()
 			.withUser("jsweeney76")
 			.password("123456")
@@ -22,9 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 		http.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/").permitAll()
+			//	.antMatchers("/login").permitAll()
 				.anyRequest().hasRole("USER").and()
 			.formLogin()
-				.loginPage("/")
+				.loginPage("/login")
 				.permitAll()
 				.and()
 			.logout()
