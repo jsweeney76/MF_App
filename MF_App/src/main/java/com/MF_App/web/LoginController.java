@@ -12,4 +12,10 @@ public class LoginController
 	{
 		return "login";
 	}
+	
+	@RequestMapping(value="/register", method=RequestMethod.GET)
+	public String register() 
+	{
+		return "register";
+	}
 }
