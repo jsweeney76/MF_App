@@ -1,17 +1,21 @@
 package com.MF_App.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.MF_App.domain.User;
+import com.MF_App.service.UserService;
 
 @Controller
 public class LoginController 
 {
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login()
 	{
@@ -27,7 +31,7 @@ public class LoginController
 	
 	@PostMapping("/register")
 	public String registerPost (User user) {
-		System.out.println(user);
+		userService.save(user);
 		return "redirect:/login";
 	}
 }
