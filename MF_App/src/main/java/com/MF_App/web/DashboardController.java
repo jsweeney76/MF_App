@@ -21,4 +21,9 @@ public class DashboardController
 		return "dashboard";
 	}
 	
+//	@RequestMapping(value="/settings", method=RequestMethod.GET)
+//	public String settingsView()
+//	{
+//		return "settings";
+//	}
 }

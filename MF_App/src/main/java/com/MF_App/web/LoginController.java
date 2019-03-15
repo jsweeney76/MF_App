@@ -29,9 +29,17 @@ public class LoginController
 		return "register";
 	}
 	
+	@RequestMapping(value="/settings", method=RequestMethod.GET)
+	public String settings(ModelMap model) 
+	{
+		model.put("user", new User());
+		return "settings";
+	}
+	
 	@PostMapping("/register")
 	public String registerPost (User user) {
 		userService.save(user);
 		return "redirect:/login";
 	}
+	
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Registration Page</title>
+<script   	
+	src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(function () {
+		$("#back").click(function () {
+			window.location.href = '/login';
+		});
+	});
+
+</script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div class="card" style="margin-top: 2.5em">
+			<div class="card-header"><h2>Register for an account</h2></div>
+			<div class="card-body">
+				
+				<form action="" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				
+				<div class="form-group row">	
+					<label for="FName" class="col-md-2 col-form-label">First Name: </label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" th:field="${user.FName}"/>
+					</div>
+				</div>
+					
+				<div class="form-group row">
+					<label for="LName" class="col-md-2 col-form-label">Last Name:  </label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" th:field="${user.LName}"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+					<label for="position" class="col-md-2 col-form-label">Position Played: </label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" th:field="${user.position}"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+					<label for="team" class="col-md-2 col-form-label">Team: </label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" th:field="${user.team}"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+					<label for="username" class="col-md-2 col-form-label">Email Address: </label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" th:field="${user.username}"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+					<label for="password" class="col-md-2 col-form-label">Password: </label>
+					<div class="col-md-10">
+						<input type="password" class="form-control" th:field="${user.password}"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					
+					<label for="confirmPassword" class="col-md-2 col-form-label">Confirm Password: </label>
+					<div class="col-md-10">
+						<input type="password" class="form-control" id="confirmPassword"/>
+					</div>
+				</div>
+					<button type="button" class="btn btn-large btn-info" id="back">Back</button>
+					<button type="submit" class="btn btn-large btn-primary float-right">Create Account</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

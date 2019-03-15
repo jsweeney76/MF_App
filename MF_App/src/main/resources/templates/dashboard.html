@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -7,70 +7,571 @@
 <script   	
 	src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	$(function () {
-		$("#createAccount").click(function() {
+
+	$(function () 
+	{
+		$("#createAccount").click(function() 
+		{
 			window.location.href = "/register";
-		})
+		});
 	});
+	
+	$(function () 
+	{
+		$("#settings").click(function () 
+		{
+			window.location.href = "/settings";
+		});
+	});
+	
+	$(function() {
+		$("#percentages").click(function() {
+			e();
+			f();
+			g();
+			z();
+		})
+	})
+	
+	
+	//HRV WorkingValue
+	$(document).ready(function(m) 
+	{
+		$("input").change(function() 
+		{			
+			var hrv_Low=$("input[name=hrv_Low]").val();
+			var lowWeight=$("input[name=lowWeight]").val();
+			var hrv_Mid=$("input[name=hrv_Mid]").val();
+			var midWeight=$("input[name=midWeight]").val();
+			var hrv_High=$("input[name=hrv_High]").val();
+			var highWeight=$("input[name=highWeight]").val();		
+			var lowWV=(hrv_Low*lowWeight);
+			var midWV=(hrv_Mid*midWeight);
+			var highWV=(hrv_High*highWeight);
+				
+			var workingValue=(lowWV+midWV+highWV);
+			$("input[name=workingValue]").val(workingValue);
+		});
+	});
+	
+	
+	//HRV_MaxHRV
+	$(document).ready(function(n) 
+	{
+		$("input").change(function() 
+		{
+			var lowWeight=$("input[name=lowWeight]").val();
+			var midWeight=$("input[name=midWeight]").val();
+			var highWeight=$("input[name=highWeight]").val();
+			var max=Math.max(lowWeight, midWeight, highWeight);
+			var maxHRV=(max*100);
+			var maxHRV=Math.round(maxHRV);
+			$("input[name=maxHRV]").val(maxHRV);
+		});
+	});
+	
+	//EEG_PV
+	$(document).ready(function(o) 
+	{
+		$("input").change(function () 
+		{
+			var minEEG=$("input[name=minEEG]").val();
+			var maxEEG=$("input[name=maxEEG]").val();
+			var diff=(maxEEG-minEEG);
+			var pv=(100/diff);
+			$("input[name=pv]").val(pv);
+		});
+	});
+	
+	//EEG:Working Video and Working Audio
+	$(document).ready(function(p) 
+	{
+		$("input").change(function() 
+		{
+			
+			var maxEEG=$("input[name=maxEEG]").val();
+			var audio_EEG=$("input[name=audio_EEG]").val();
+			var video_EEG=$("input[name=video_EEG]").val();
+			var pv=$("input[name=pv]").val();
+			var wa=(maxEEG-audio_EEG);
+			var waPV=(wa*pv);
+			var workingAudio=(100-waPV);
+			$("input[name=workingAudio]").val(workingAudio);
+			
+			var wv=(maxEEG-video_EEG);
+			var wvPV=(wv*pv);
+			var workingVideo=(100-wvPV);
+			$("input[name=workingVideo]").val(workingVideo);
+		});
+	});
+	
+	//IM_Task PV
+	$(document).ready(function(q) 
+	{
+		$("input").change(function() 
+		{
+			var taskMin=$("input[name=taskMin]").val();
+			var taskMax=$("input[name=taskMax]").val();
+			var taskDiff=(taskMax-taskMin);
+			var taskPV=(100/taskDiff);
+			$("input[name=taskPV]").val(taskPV);
+		});
+	});
+	
+	//IM_WorkingTA
+	$(document).ready(function(r)
+	{
+		$("input").change(function() 
+		{
+			var taskMax=$("input[name=taskMax]").val();
+			var taskAvg_IM=$("input[name=taskAvg_IM]").val();
+			var taskPV=$("input[name=taskPV]").val();
+			var taskDiff=(taskMax-taskAvg_IM);
+			var taskABS=Math.abs(taskDiff*taskPV);
+			var workingTA=(100-taskABS);
+			$("input[name=workingTA]").val(workingTA);
+		});
+	});
+	
+	//IM_WorkingSRO
+	$(document).ready(function(s)
+	{
+		$("input").change(function()
+		{
+			var sroMax=$("input[name=sroMax]").val();
+			var sroMin=$("input[name=sroMin]").val();
+			var sroDiff=(sroMax-sroMin);
+			var sroPV=100/(sroDiff);
+			$("input[name=sroPV]").val(sroPV);
+			
+			var sro_IM=$("input[name=sro_IM]").val();
+			var sro2=((sroMax-sro_IM)*sroPV);
+			var workingSRO=(100-sro2);
+			$("input[name=workingSRO]").val(workingSRO);
+		});
+	});
+	
+	$(document).ready(function(iarPV) {
+		$("input").change(function(){
+			var iarMin=$("input[name=iarMin]").val();
+			var iarMax=$("input[name=iarMax]").val();
+			var iarDiff=(iarMax-iarMin);
+			var iarPV=(100/iarDiff);
+			$("input[name=iarPV]").val(iarPV);			
+		});
+	});
+	
+	$(document).ready(function(workingIAR){
+		$("input").change(function(){
+			var iarMax=$("input[name=iarMax]").val();
+			var iar_IM=$("input[name=iar_IM]").val();
+			var iarPV=$("input[name=iarPV]").val();
+			var sro2=((iarMax-iar_IM)*iarPV);
+			var workingIAR=(100-sro2);
+			$("input[name=workingIAR]").val(workingIAR);
+		});
+	});
+	
+	$(document).ready(function(total_Sound){
+		$("input").change(function(){
+			var hits_Sounds_FL=$("input[name=hits_Sounds_FL]").val();
+			var misses_Sound_FL=$("input[name=misses_Sound_FL]").val();
+			var total_Sound=(parseFloat(hits_Sounds_FL)+parseFloat(misses_Sound_FL));
+			$("input[name=total_Sound]").val(total_Sound);
+		});
+	});
+
+	$(document).ready(function(hits_v_total_Sound){
+		$("input").change(function(){
+			var hits_Sounds_FL=$("input[name=hits_Sounds_FL]").val();
+			var total_Sound=$("input[name=total_Sound]").val();
+			var num=(hits_Sounds_FL/total_Sound);
+			var hits_v_total_Sound=(num*100);
+			$("input[name=hits_v_total_Sound]").val(hits_v_total_Sound);
+		});
+	});
+	
+	$(document).ready(function(workingAT_Sound){
+		$("input").change(function(){
+			var avgTimeMax_NoSound=$("input[name=avgTimeMax_NoSound]").val();
+			var avgTime_Sound_FL=$("input[name=avgTime_Sound_FL]").val();
+			var avgTimePV_NoSound=$("input[name=avgTimePV_NoSound]").val();
+			var absAvg=Math.abs((avgTimeMax_NoSound-avgTime_Sound_FL)*avgTimePV_NoSound);
+			var workingAT_Sound=(100-absAvg);
+			$("input[name=workingAT_Sound]").val(workingAT_Sound);
+		});
+	});
+	
+	$(document).ready(function(total_NoSound){
+		$("input").change(function(){
+			var hits_NoSound_FL=$("input[name=hits_NoSound_FL]").val();
+			var misses_NoSound_FL=$("input[name=misses_NoSound_FL]").val();
+			var total_NoSound=(parseFloat(hits_NoSound_FL)+parseFloat(misses_NoSound_FL));
+			$("input[name=total_NoSound]").val(total_NoSound);
+		});
+	});
+	
+	$(document).ready(function(hit_v_total_NoSound){
+		$("input").change(function(){
+			var hits_NoSound_FL=$("input[name=hits_NoSound_FL]").val();
+			var total_NoSound=$("input[name=total_NoSound]").val();
+			var num2=(hits_NoSound_FL/total_NoSound);
+			var hits_v_total_NoSound=(num2*100);
+			$("input[name=hits_v_total_NoSound]").val(hits_v_total_NoSound);
+		});
+	});
+	
+	$(document).ready(function(workingAT_NoSound){
+		$("input").change(function(){
+			var avgTime_NoSound_FL=$("input[name=avgTime_NoSound_FL]").val();
+			var avgTimeMax_NoSound=$("input[name=avgTimeMax_NoSound]").val();
+			var avgTimePV_NoSound=$("input[name=avgTimePV_NoSound]").val();
+			var absNS=Math.abs((avgTime_NoSound_FL-avgTimeMax_NoSound)*avgTimePV_NoSound);
+			var workingAT_NOSound=(100-absNS);
+			$("input[name=workingAT_NOSound]").val(workingAT_NOSound);
+		})
+	})
+	
+	//WORKS AS WRITTEN
+	//percHRV
+	$(document).ready(function(percHRV) 
+	{
+		$("input").change(function()
+		{
+			var workingValue=$("input[name=workingValue]").val();
+			var maxHRV=$("input[name=maxHRV]").val();
+			var percHRV=((workingValue/maxHRV)*100);
+			$("input[name=percHRV]").val(percHRV);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percEEG
+	$(document).ready(function(percEEG) 
+	{
+		$("input").change(function() 
+		{
+			var workingAudio=$("input[name=workingAudio]").val();
+			var audioWeight=$("input[name=audioWeight]").val();
+			var workingVideo=$("input[name=workingVideo]").val();
+			var videoWeight=$("input[name=videoWeight]").val();
+			var percEEG=((workingAudio*audioWeight)+(workingVideo*videoWeight));
+			$("input[name=percEEG]").val(percEEG);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percIM
+	$(document).ready(function(percIM) 
+	{
+		$("input").change(function()
+		{
+			var workingTA=$("input[name=workingTA]").val();
+			var taskAvgWeight=$("input[name=taskAvgWeight]").val();
+			var workingSRO=$("input[name=workingSRO]").val();
+			var sroWeight=$("input[name=sroWeight]").val();
+			var workingIAR=$("input[name=workingIAR]").val();
+			var iarWeight=$("input[name=iarWeight]").val();
+
+			var percIM=((workingTA*taskAvgWeight)+(workingSRO*sroWeight)+(workingIAR*iarWeight));
+			
+			$("input[name=percIM]").val(percIM);
+			
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percFitLight
+	$(document).ready(function(percFitLight) 
+	{
+		$("input").change(function() 
+		{
+				var hits_v_total_Sound=$("input[name=hits_v_total_Sound]").val();
+				var hitsVsTotalWeight=$("input[name=hitsVsTotalWeight]").val();
+				var workingAT_Sound=$("input[name=workingAT_Sound]").val();
+				var avgTimeWeight=$("input[name=avgTimeWeight]").val();
+				var hits_v_total_NoSound=$("input[name=hits_v_total_NoSound]").val();
+				var hitsVsTotalNoSoundWeight=$("input[name=hitsVsTotalNoSoundWeight]").val();
+				var workingAT_NOSound=$("input[name=workingAT_NOSound]").val();
+				var avgTimeNoSoundWeight=$("input[name=avgTimeNoSoundWeight]").val();
+				var percFitLight=(hits_v_total_Sound*hitsVsTotalWeight)+(workingAT_Sound*avgTimeWeight)+(hits_v_total_NoSound*hitsVsTotalNoSoundWeight)+(workingAT_NOSound*avgTimeNoSoundWeight);
+				$("input[name=percFitLight]").val(percFitLight);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//BioQ
+	$(document).ready(function (BioQ) 
+	{
+		$("input").change(function () 
+		{
+			var hrv_Weight=$("input[name=hrv_Weight]").val();
+			var EEG_Weight=$("input[name=EEG_Weight]").val();
+			var IM_Weight=$("input[name=IM_Weight]").val();
+			var FL_Weight=$("input[name=FL_Weight]").val();
+
+			var percHRV=$("input[name=percHRV]").val();
+			var percEEG=$("input[name=percEEG]").val();
+			var percIM=$("input[name=percIM]").val();
+			var percFitLight=$("input[name=percFitLight]").val();
+	
+			var straightCalc=((percHRV*hrv_Weight)+(percEEG*EEG_Weight)+(percIM*IM_Weight)+(percFitLight*FL_Weight));
+			$("input[name=straightCalc]").val(straightCalc);
+			var curvedSqRoot=Math.sqrt(straightCalc);
+			$("input[name=curvedSqRoot]").val(curvedSqRoot);
+						
+			var hrvSAT=(7*percHRV);
+			var eegSAT=(7*percEEG);
+			var imSAT=(7*percIM);
+			var fitLightSAT=(7*percFitLight);
+			var SAT=(hrvSAT+eegSAT+imSAT+fitLightSAT);
+			var SATMethod=Math.round(SAT);
+			$("input[name=SATMethod]").val(SATMethod);
+						
+			//Calculate Randomizer
+			var hrvRand=((percHRV*12)/7);
+			var eegRand=((percEEG*12)/7);
+			var imRand=((percIM*12)/7);
+			var fitLightRand=((percFitLight*12)/7);
+			
+			var randomizer=((hrvRand+eegRand+imRand+fitLightRand)/5.5);
+			$("input[name=randomizer]").val(randomizer);
+		});
+	});
+
 </script>
+
 </head>
 <body>
 <div class="container" style="margin-top: 2.5em">
 	<div class="row">
-		<div class="col-3 col-sm"> Pic goes here
+		<div class="col-3 col-sm"> <img src="/bioQ.png" alt="BioQ">
 		</div>
 		<div class="col-9 col-sm"><h1>BioQ - Mindful Athlete</h1></div>
 	</div>
 </div>
 
 <div class="container">
-	<div class="card">
-		<div class="card-header"><h3>Please enter the BioQ measurements</h3></div>
-		<div class="card-body">
-			<form action="" method="post">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-			
-			<div class="form-group row">
-					<label for="calm_score" class="col-md-2 col-form-label"> Calm: </label>
-					<div class="col-md-10">
-						<input type="text" class="form-control"/>
-					</div>
-			</div>
-			<div class="form-group row">
-					<label for="focus_score" class="col-md-2 col-form-label"> Focus: </label>
-					<div class="col-md-10">
-						<input type="text" class="form-control"/>
-					</div>
-				</div>
+	<h4 style="margin-top: 2em"><strong><em>Settings</em></strong></h4>
+	<div class="card-group">
+		  <div class="card">			  		  		
+			    <div class="card-body">
+			    	<div style="background-color:red">
+			    	<h5 class="card-title">HRV</h5></div>
+			      	<p class="card-text">Working Value: </p>
+			      		<input type="text" class="form-control" name="workingValue" value=0> 	
+			      	<p class="card-text">Min: </p>
+			      		<input type="text" class="form-control" name="minHRV" value=0>
+			      	<p class="card-text">Max: </p>
+			      		<input type="text" class="form-control" name="maxHRV" value=0>
+			      	<p class="card-text">Low Weight: </p>
+			      		<input type="text" class="form-control" name="lowWeight" value=0>
+			      	<p class="card-text">Mid Weight: </p>
+			      		<input type="text" class="form-control" name="midWeight" value=0>
+			      	<p class="card-text">High Weight: </p>
+			      		<input type="text" class="form-control" name="highWeight" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:orange"><h5 class="card-title">EEG</h5></div>
+			    	<p class="card-text">Min: </p>
+			    		<input type="text" class="form-control" name="minEEG" value=0>
+			    	<p class="card-text">Max: </p>
+			    		<input type="text" class="form-control" name="maxEEG" value=0>
+			    	<p class="card-text">PV: </p>
+			    		<input type="text" class="form-control" name="pv" value=0>
+			    	<p class="card-text">Working Audio: </p>
+			      		<input type="text" class="form-control" name="workingAudio" value=0>
+			      	<p class="card-text">Working Video: </p>
+			      		<input type="text" class="form-control" name="workingVideo" value=0>
+			      	<p class="card-text">Audio Weight: </p>
+			      		<input type="text" class="form-control" name="audioWeight" value=0>
+			      	<p class="card-text">Video Weight: </p>
+			      		<input type="text" class="form-control" name="videoWeight" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:green"><h5 class="card-title">IM</h5></div>
+			    	<p class="card-text">Task Avg Min: </p>
+			    		<input type="text" class="form-control" name="taskMin" value=0>
+			    	<p class="card-text">Task Avg Max: </p>
+			    		<input type="text" class="form-control" name="taskMax" value=0>
+			    	<p class="card-text">Task Avg PV: </p>
+			    		<input type="text" class="form-control" name="taskPV" value=0>
+			    	<p class="card-text">Working TA: </p>
+			    		<input type="text" class="form-control" name="workingTA" value=0>
+			    	<p class="card-text">SRO Min: </p>
+			    		<input type="text" class="form-control" name="sroMin" value=0>
+			    	<p class="card-text">SRO Max: </p>
+			    		<input type="text" class="form-control" name="sroMax" value=0>
+			    	<p class="card-text">SRO PV: </p>
+			    		<input type="text" class="form-control" name="sroPV" value=0>
+			    	<p class="card-text">Working SRO: </p>
+			    		<input type="text" class="form-control" name="workingSRO" value=0>
+			    	<p class="card-text">IAR Min: </p>
+			    		<input type="text" class="form-control" name="iarMin" value=0>
+			    	<p class="card-text">IAR Max: </p>
+			    		<input type="text" class="form-control" name="iarMax" value=0>
+			    	<p class="card-text">IAR PV: </p>
+			    		<input type="text" class="form-control" name="iarPV" value=0>
+			    	<p class="card-text">Working IAR: </p>
+			    		<input type="text" class="form-control" name="workingIAR" value=0>
+			    	<p class="card-text">Task Avg Weight: </p>
+			    		<input type="text" class="form-control" name="taskAvgWeight" value=0>
+			    	<p class="card-text">SRO Weight: </p>
+			    		<input type="text" class="form-control" name="sroWeight" value=0>
+			    	<p class="card-text">IAR Weight: </p>
+			    		<input type="text" class="form-control" name="iarWeight" value=0>
+			    </div>
+		  </div>
+	</div>		
+</div>
+<div class="container">
+	<div class="card-group">
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:purple"><h5 class="card-title">FL with Sound</h5></div>
+			    	<p class="card-text">Total: </p>
+			    		<input type="text" class="form-control" name="total_Sound" value=0>
+			    	<p class="card-text">Hits vs. Total: </p>
+			    		<input type="text" class="form-control" name="hits_v_total_Sound" value=0>
+			    	<p class="card-text">Working AT: </p>
+			    		<input type="text" class="form-control" name="workingAT_Sound" value=0>
+			    	<p class="card-text">Hits vs. Total Weight: </p>
+			    		<input type="text" class="form-control" name="hitsVsTotalWeight" value=0>
+			    	<p class="card-text">Avg Time Weight: </p>
+			    		<input type="text" class="form-control" name="avgTimeWeight" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:purple"><h5 class="card-title">FL without Sound</h5></div>
+			    	<p class="card-text">Total: </p>
+			    		<input type="text" class="form-control" name="total_NoSound" value=0>
+			    	<p class="card-text">Hits vs. Total: </p>
+			    		<input type="text" class="form-control" name="hits_v_total_NoSound" value=0>
+			    	<p class="card-text">Working AT: </p>
+			    		<input type="text" class="form-control" name="workingAT_NOSound" value=0>
+			    	<p class="card-text">Avg Time min: </p>
+			    		<input type="text" class="form-control" name="avgTimeMin_NOSound" value=0>
+			    	<p class="card-text">Avg Time Max: </p>
+			    		<input type="text" class="form-control" name="avgTimeMax_NoSound" value=0>
+			    	<p class="card-text">Avg Time PV: </p>
+			    		<input type="text" class="form-control" name="avgTimePV_NoSound" value=0>
+			    	<p class="card-text">Hits vs. Total Weight: </p>
+			    		<input type="text" class="form-control" name="hitsVsTotalNoSoundWeight" value=0>
+			    	<p class="card-text">Avg Time Weight: </p>
+			    		<input type="text" class="form-control" name="avgTimeNoSoundWeight" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:blue"><h5 class="card-title">Final Score</h5></div>
+			    	<p class="card-text">HRV Weight: </p>
+			    		<input type="text" class="form-control" name="hrv_Weight" value=0>
+			    	<p class="card-text">EEG Weight: </p>
+			    		<input type="text" class="form-control" name="EEG_Weight" value=0>
+			    	<p class="card-text">SIM Weight: </p>
+			    		<input type="text" class="form-control" name="IM_Weight" value=0>
+			    	<p class="card-text">FL Weight: </p>
+			    		<input type="text" class="form-control" name="FL_Weight" value=0>
+			    </div>
+		  </div>
+	</div>			
+</div>
+
+<div class="container" style="margin-top: 2.5em">
+	<h4 style="margin-top: 2em"><strong><em>BioQ Scoring</em></strong></h4>
+	<div class="card-group">
+		  <div class="card">			  		  		
+			    <div class="card-body">
+			    	<div style="background-color:red"><h5 class="card-title">HRV</h5></div>
+			      	<p class="card-text">Low: </p>
+			      		<input type="text" class="form-control" name="hrv_Low" value=0> 	
+			      	<p class="card-text">Mid: </p>
+			      		<input type="text" class="form-control" name="hrv_Mid" value=0>
+			      	<p class="card-text">High: </p>
+			      		<input type="text" class="form-control" name="hrv_High" value=0>
+			      	<p class="card-text">HRV%: </p>
+			      		<input type="text" class="form-control" name="percHRV" value=0>
+			    </div>
+
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:orange"><h5 class="card-title">EEG</h5></div>
+			    	<p class="card-text">Audio: </p>
+			    		<input type="text" class="form-control" name="audio_EEG" value=0>
+			    	<p class="card-text">Video: </p>
+			    		<input type="text" class="form-control" name="video_EEG" value=0>
+			    	<p class="card-text">EEG%: </p>
+			    		<input type="text" class="form-control" name="percEEG" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:green"><h5 class="card-title">IM</h5></div>
+			    	<p class="card-text">Task Avg: </p>
+			    		<input type="text" class="form-control" name="taskAvg_IM" value=0>
+			    	<p class="card-text">SRO: </p>
+			    		<input type="text" class="form-control" name="sro_IM" value=0>
+			    	<p class="card-text">IAR: </p>
+			    		<input type="text" class="form-control" name="iar_IM" value=0>
+			    	<p class="card-text">IM%: </p>
+			    		<input type="text" class="form-control" name="percIM" value=0>
+			    </div>
+		  </div>
+	</div>		
+</div>
+<div class="container">
+	<div class="card-group">
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:purple"><h5 class="card-title">FL with Sound</h5></div>
+			    	<p class="card-text">Hits: </p>
+			    		<input type="text" class="form-control" name="hits_Sounds_FL" value=0>
+			    	<p class="card-text">Misses: </p>
+			    		<input type="text" class="form-control" name="misses_Sound_FL" value=0>
+			    	<p class="card-text">Avg Time: </p>
+			    		<input type="text" class="form-control" name="avgTime_Sound_FL" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:purple"><h5 class="card-title">FL without Sound</h5></div>
+			    	<p class="card-text">Hits: </p>
+			    		<input type="text" class="form-control" name="hits_NoSound_FL" value=0>
+			    	<p class="card-text">Misses: </p>
+			    		<input type="text" class="form-control" name="misses_NoSound_FL" value=0>
+			    	<p class="card-text">Avg Time: </p>
+			    		<input type="text" class="form-control" name="avgTime_NoSound_FL" value=0>
+			    	<p class="card-text">Fit Light%: </p>
+			    		<input type="text" class="form-control" name="percFitLight" value=0>
+			    </div>
+		  </div>
+		  <div class="card">
+			    <div class="card-body">
+			    	<div style="background-color:blue"><h5 class="card-title">BioQ</h5></div>
+			    	<p class="card-text">Straight Calc: </p>
+			    		<input type="text" class="form-control" name="straightCalc" value=0>
+			    	<p class="card-text">Curved SQ Root: </p>
+			    		<input type="text" class="form-control" name="curvedSqRoot" value=0>
+			    	<p class="card-text">SAT Method: </p>
+			    		<input type="text" class="form-control" name="SATMethod" value=0>
+			    	<p class="card-text">Randomizer: </p>
+			    		<input type="text" class="form-control" name="randomizer" value=0>
+			    	<div class="col-6">	        
+				<!-- 	    <button type="button" class="btn btn-large btn-info float-right" id="calculate">Calculate BioQ</button>   -->
+				    </div>
+			    </div>
+			    
+		  </div>
+		  
+	</div>	
 				
-				<div class="form-group row">
-					<label for="engaged_score" class="col-md-2 col-form-label"> Engaged: </label>
-					<div class="col-md-10">
-						<input type="text" class="form-control"/>
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label for="integrated_score" class="col-md-2 col-form-label"> Integrated: </label>
-					<div class="col-md-10">
-						<input type="text" class="form-control"/>
-					</div>
-				</div>
-				
-				<div class="form-group row">
-					<label for="bioq" class="col-md-2 col-form-label"> BioQ: </label>
-					<div class="col-md-10">
-						<input type="text" class="form-control"/>
-					</div>
-				</div>
-				<div class="col-12">	        
-					<p style="line-height:70 px; text-align:center;"><button type="button" class="btn btn-large btn-info center" id="calculateBioQ">Calculate BioQ</button></p>
-				</div>	
-				
-			</form>
-		</div>
-	</div>
-	
+<!--  	<button type="button" class="btn btn-large btn-warning float-right" id="settings">Settings</button>
 </div>
 
 <div class="container">
@@ -86,27 +587,706 @@
 							<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 								<a href="#" class="btn btn-primary">Calculate BioQ</a>
 			  		</div>
-			</div>
+			</div>		
 		</div>
-		
-	    <div class="col align-self-end">	      
+	    	<div class="col align-self-end">	      
 	    </div>
 	</div>
-
-
+</div>	
 	
-  
-</div>
+<form action="/logout" method="post">
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	<button type="submit">Logout</button>
+</form>
+	
+</body>
+</html>-->
 
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Mindful Athlete BioQ Dashboard</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
+<script   	
+	src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+<script type="text/javascript">
 
-
-
+	$(function () 
+	{
+		$("#createAccount").click(function() 
+		{
+			window.location.href = "/register";
+		});
+	});
+	
+	$(function () 
+	{
+		$("#settings").click(function () 
+		{
+			window.location.href = "/settings";
+		});
+	});
+	
+	$(function() {
+		$("#percentages").click(function() {
+			e();
+			f();
+			g();
+			z();
+		})
+	})
+	//BioQ Scoring
+	//percHRV
+	$(document).ready(function(percHRV) 
+	{
+		$("input").change(function()
+		{
+			var workingValue=$("input[name=workingValue]").val();
+			var maxHRV=$("input[name=maxHRV]").val();
+			var percHRV=((workingValue/maxHRV)*100);
+			$("input[name=percHRV]").val(percHRV);
+		});
+	});
+	
+	//SETTINGS
+	//HRV WorkingValue
+	$(document).ready(function(hrvWorkingValue) 
+	{
+		$("input").change(function() 
+		{			
+			var hrv_Low=$("input[name=hrv_Low]").val();
+			var lowWeight=$("input[name=lowWeight]").val();
+			var hrv_Mid=$("input[name=hrv_Mid]").val();
+			var midWeight=$("input[name=midWeight]").val();
+			var hrv_High=$("input[name=hrv_High]").val();
+			var highWeight=$("input[name=highWeight]").val();		
+			var lowWV=(hrv_Low*lowWeight);
+			var midWV=(hrv_Mid*midWeight);
+			var highWV=(hrv_High*highWeight);
+			var workingValue=((parseFloat(lowWV))+(parseFloat(midWV))+(parseFloat(highWV)));		
+			$("input[name=workingValue]").val(workingValue);
+		});
+	});
 	
 	
-	<form action="/logout" method="post">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-		<button type="submit">Logout</button>
-	</form>
+	//HRV_MaxHRV
+	$(document).ready(function(hrvMaxHRV) 
+	{
+		$("input").change(function() 
+		{
+			var lowWeight=$("input[name=lowWeight]").val();
+			var midWeight=$("input[name=midWeight]").val();
+			var highWeight=$("input[name=highWeight]").val();
+			var max=Math.max(lowWeight, midWeight, highWeight);
+			var maxHRV=(max*100);
+			var maxHRV=Math.round(maxHRV);
+			$("input[name=maxHRV]").val(maxHRV);
+		});
+	});
 	
+	//EEG_PV
+	$(document).ready(function(eegPV) 
+	{
+		$("input").change(function () 
+		{
+			var minEEG=$("input[name=minEEG]").val();
+			var maxEEG=$("input[name=maxEEG]").val();
+			var diff=(maxEEG-minEEG);
+			var pv=(100/diff);
+			$("input[name=pv]").val(pv);
+		});
+	});
+	
+	//EEG:Working Video and Working Audio
+	$(document).ready(function(eegWorkingAV) 
+	{
+		$("input").change(function() 
+		{
+			
+			var maxEEG=$("input[name=maxEEG]").val();
+			var audio_EEG=$("input[name=audio_EEG]").val();
+			var video_EEG=$("input[name=video_EEG]").val();
+			var pv=$("input[name=pv]").val();
+			var wa=(maxEEG-audio_EEG);
+			var waPV=(wa*pv);
+			var workingAudio=(100-waPV);
+			$("input[name=workingAudio]").val(workingAudio);
+			
+			var wv=(maxEEG-video_EEG);
+			var wvPV=(wv*pv);
+			var workingVideo=(100-wvPV);
+			$("input[name=workingVideo]").val(workingVideo);
+		});
+	});
+	
+	//IM_Task PV
+	$(document).ready(function(imTaskPV) 
+	{
+		$("input").change(function() 
+		{
+			var taskMin=$("input[name=taskMin]").val();
+			var taskMax=$("input[name=taskMax]").val();
+			var taskDiff=(taskMax-taskMin);
+			var taskPV=(100/taskDiff);
+			$("input[name=taskPV]").val(taskPV);
+		});
+	});
+	
+	//IM_WorkingTA
+	$(document).ready(function(imWorkingTA)
+	{
+		$("input").change(function() 
+		{
+			var taskMax=$("input[name=taskMax]").val();
+			var taskAvg_IM=$("input[name=taskAvg_IM]").val();
+			var taskPV=$("input[name=taskPV]").val();
+			var taskDiff=(taskMax-taskAvg_IM);
+			var taskABS=Math.abs(taskDiff*taskPV);
+			var workingTA=(100-taskABS);
+			$("input[name=workingTA]").val(workingTA);
+		});
+	});
+	
+	//IM_WorkingSRO
+	$(document).ready(function(imWorkingSRO)
+	{
+		$("input").change(function()
+		{
+			var sroMax=$("input[name=sroMax]").val();
+			var sroMin=$("input[name=sroMin]").val();
+			var sroDiff=(sroMax-sroMin);
+			var sroPV=100/(sroDiff);
+			$("input[name=sroPV]").val(sroPV);
+			
+			var sro_IM=$("input[name=sro_IM]").val();
+			var sro2=((sroMax-sro_IM)*sroPV);
+			var workingSRO=(100-sro2);
+			$("input[name=workingSRO]").val(workingSRO);
+		});
+	});
+	
+	$(document).ready(function(iarPV) {
+		$("input").change(function(){
+			var iarMin=$("input[name=iarMin]").val();
+			var iarMax=$("input[name=iarMax]").val();
+			var iarDiff=(iarMax-iarMin);
+			var iarPV=(100/iarDiff);
+			$("input[name=iarPV]").val(iarPV);			
+		});
+	});
+	
+	$(document).ready(function(workingIAR){
+		$("input").change(function(){
+			var iarMax=$("input[name=iarMax]").val();
+			var iar_IM=$("input[name=iar_IM]").val();
+			var iarPV=$("input[name=iarPV]").val();
+			var sro2=((iarMax-iar_IM)*iarPV);
+			var workingIAR=(100-sro2);
+			$("input[name=workingIAR]").val(workingIAR);
+		});
+	});
+	
+	$(document).ready(function(total_Sound){
+		$("input").change(function(){
+			var hits_Sounds_FL=$("input[name=hits_Sounds_FL]").val();
+			var misses_Sound_FL=$("input[name=misses_Sound_FL]").val();
+			var total_Sound=((parseFloat(hits_Sounds_FL))+(parseFloat(misses_Sound_FL)));
+			$("input[name=total_Sound]").val(total_Sound);
+		});
+	});
+
+	$(document).ready(function(hits_v_total_Sound){
+		$("input").change(function(){
+			var hits_Sounds_FL=$("input[name=hits_Sounds_FL]").val();
+			var total_Sound=$("input[name=total_Sound]").val();
+			var num=(hits_Sounds_FL/total_Sound);
+			var hits_v_total_Sound=(num*100);
+			$("input[name=hits_v_total_Sound]").val(hits_v_total_Sound);
+		});
+	});
+	
+	$(document).ready(function(avgTimePV){
+		$("input").change(function(){
+			var avgTimeMax_NoSound=$("input[name=avgTimeMax_NoSound]").val();
+			var avgTimeMin_NOSound=$("input[name=avgTimeMin_NOSound]").val();
+			var avgTimeDiff=(avgTimeMax_NoSound-avgTimeMin_NOSound);
+			var avgTimeABS=Math.abs(avgTimeDiff);
+			var avgTimePV_NoSound=(100/avgTimeABS);
+			$("input[name=avgTimePV_NoSound]").val(avgTimePV_NoSound);
+		});
+	});
+			
+	//CHECK THIS CALC
+	$(document).ready(function(workingAT_Sound){
+		$("input").change(function(){
+			var avgTimeMax_NoSound=$("input[name=avgTimeMax_NoSound]").val();
+			var avgTime_Sound_FL=$("input[name=avgTime_Sound_FL]").val();
+			var avgTimePV_NoSound=$("input[name=avgTimePV_NoSound]").val();
+			
+			var avgTimeDiff=(avgTimeMax_NoSound-avgTime_Sound_FL);
+			var avgTimeABS=Math.abs(avgTimeDiff);
+			var avgTimeProd=(avgTimeABS*avgTimePV_NoSound);
+			var workingAT_Sound=(100-avgTimeProd);
+			$("input[name=workingAT_Sound]").val(workingAT_Sound);
+		});
+	});
+	
+	$(document).ready(function(total_NoSound){
+		$("input").change(function(){
+			var hits_NoSound_FL=$("input[name=hits_NoSound_FL]").val();
+			var misses_NoSound_FL=$("input[name=misses_NoSound_FL]").val();
+			var total_NoSound=((parseFloat(hits_NoSound_FL))+(parseFloat(misses_NoSound_FL)));
+			$("input[name=total_NoSound]").val(total_NoSound);
+		});
+	});
+	
+	$(document).ready(function(hit_v_total_NoSound){
+		$("input").change(function(){
+			var hits_NoSound_FL=$("input[name=hits_NoSound_FL]").val();
+			var total_NoSound=$("input[name=total_NoSound]").val();
+			var num2=(hits_NoSound_FL/total_NoSound);
+			var hits_v_total_NoSound=(num2*100);
+			$("input[name=hits_v_total_NoSound]").val(hits_v_total_NoSound);
+		});
+	});
+
+	$(document).ready(function(workingAT_NoSound){
+		$("input").change(function(){
+			var avgTime_NoSound_FL=$("input[name=avgTime_NoSound_FL]").val();
+			var avgTimeMax_NoSound=$("input[name=avgTimeMax_NoSound]").val();
+			var avgTimePV_NoSound=$("input[name=avgTimePV_NoSound]").val();
+			var avgTime_NSDiff=(avgTime_NoSound_FL-avgTimeMax_NoSound);
+			var avgTime_NSABS=Math.abs(avgTime_NSDiff);
+			var avgTime_NSProd=(avgTime_NSABS*avgTimePV_NoSound);
+			var workingAT_NOSound=(100-avgTime_NSProd);
+			$("input[name=workingAT_NOSound]").val(workingAT_NOSound);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percEEG
+	$(document).ready(function(percEEG) 
+	{
+		$("input").change(function() 
+		{
+			var workingAudio=$("input[name=workingAudio]").val();
+			var audioWeight=$("input[name=audioWeight]").val();
+			var workingVideo=$("input[name=workingVideo]").val();
+			var videoWeight=$("input[name=videoWeight]").val();
+			var workingAudioWeight = (workingAudio*audioWeight);
+			var workingVideoWeight = (workingVideo*videoWeight);
+			var percEEG=((parseFloat(workingAudioWeight))+(parseFloat(workingVideoWeight)));
+			$("input[name=percEEG]").val(percEEG);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percIM
+	$(document).ready(function(percIM) 
+	{
+		$("input").change(function()
+		{
+			var workingTA=$("input[name=workingTA]").val();
+			var taskAvgWeight=$("input[name=taskAvgWeight]").val();
+			var workingSRO=$("input[name=workingSRO]").val();
+			var sroWeight=$("input[name=sroWeight]").val();
+			var workingIAR=$("input[name=workingIAR]").val();
+			var iarWeight=$("input[name=iarWeight]").val();
+
+			var percIM=((parseFloat(workingTA*taskAvgWeight))+(parseFloat(workingSRO*sroWeight))+(parseFloat(workingIAR*iarWeight)));
+			$("input[name=percIM]").val(percIM);
+			
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//percFitLight
+	$(document).ready(function(percFitLight) 
+	{
+		$("input").change(function() 
+		{
+				var hits_v_total_Sound=$("input[name=hits_v_total_Sound]").val();
+				var hitsVsTotalWeight=$("input[name=hitsVsTotalWeight]").val();
+				var workingAT_Sound=$("input[name=workingAT_Sound]").val();
+				var avgTimeWeight=$("input[name=avgTimeWeight]").val();
+				var hits_v_total_NoSound=$("input[name=hits_v_total_NoSound]").val();
+				var hitsVsTotalNoSoundWeight=$("input[name=hitsVsTotalNoSoundWeight]").val();
+				var workingAT_NOSound=$("input[name=workingAT_NOSound]").val();
+				var avgTimeNoSoundWeight=$("input[name=avgTimeNoSoundWeight]").val();
+				
+				var HVT_Sound = (hits_v_total_Sound * hitsVsTotalWeight);
+				var AT_Sound = (workingAT_Sound * avgTimeWeight);
+				var HVT_NoSound = (hits_v_total_NoSound * hitsVsTotalNoSoundWeight);
+				var AT_NoSound = (workingAT_NOSound * avgTimeNoSoundWeight);
+				var percFitLight=(parseFloat(HVT_Sound)+parseFloat(AT_Sound)+parseFloat(HVT_NoSound)+parseFloat(AT_NoSound));
+				
+				$("input[name=percFitLight]").val(percFitLight);
+		});
+	});
+	
+	//WORKS AS WRITTEN
+	//BioQ
+	$(document).ready(function (BioQ) 
+	{
+		$("input").change(function () 
+		{
+			var hrv_Weight=$("input[name=hrv_Weight]").val();
+			var EEG_Weight=$("input[name=EEG_Weight]").val();
+			var IM_Weight=$("input[name=IM_Weight]").val();
+			var FL_Weight=$("input[name=FL_Weight]").val();
+
+			var percHRV=$("input[name=percHRV]").val();
+			var percEEG=$("input[name=percEEG]").val();
+			var percIM=$("input[name=percIM]").val();
+			var percFitLight=$("input[name=percFitLight]").val();
+	
+			var straightCalc=((parseFloat(percHRV*hrv_Weight))+(parseFloat(percEEG*EEG_Weight))+(parseFloat(percIM*IM_Weight))+(parseFloat(percFitLight*FL_Weight)));
+			$("input[name=straightCalc]").val(straightCalc);
+	//		var curvedSqRoot=Math.sqrt(straightCalc);
+	//		$("input[name=curvedSqRoot]").val(curvedSqRoot);
+						
+	//		var hrvSAT=(7*percHRV);
+	//		var eegSAT=(7*percEEG);
+	//		var imSAT=(7*percIM);
+	//		var fitLightSAT=(7*percFitLight);
+	//		var SAT=(hrvSAT+eegSAT+imSAT+fitLightSAT);
+	//		var SATMethod=Math.round(SAT);
+	//		$("input[name=SATMethod]").val(SATMethod);
+						
+			//Calculate Randomizer
+	//		var hrvRand=((percHRV*12)/7);
+	//		var eegRand=((percEEG*12)/7);
+	//		var imRand=((percIM*12)/7);
+	//		var fitLightRand=((percFitLight*12)/7);
+			
+	//		var randomizer=((hrvRand+eegRand+imRand+fitLightRand)/5.5);
+	//		$("input[name=randomizer]").val(randomizer);
+		});
+	});
+	
+	
+	
+	$(function () 
+	{
+		$("#default").click(function() 
+		{
+			$("input[name=lowWeight]").val(0.03);
+			$("input[name=midWeight]").val(0.19);
+			$("input[name=highWeight]").val(0.58);
+			$("input[name=workingValue]").val(0);
+			$("input[name=minHRV]").val(0);
+			$("input[name=maxHRV]").val(0);			
+			$("input[name=pv]").val(0);			
+			$("input[name=workingAudio]").val(0);			
+			$("input[name=workingVideo]").val(0);			
+			$("input[name=taskPV]").val(0);			
+			$("input[name=workingTA]").val(0);			
+			$("input[name=sroPV]").val(0);			
+			$("input[name=workingSRO]").val(0);
+			$("input[name=iarPV]").val(0);			
+			$("input[name=workingIAR]").val(0);			
+			$("input[name=total_Sound]").val(0);			
+			$("input[name=hits_v_total_Sound]").val(0);			
+			$("input[name=workingAT_Sound]").val(0);			
+			$("input[name=total_NoSound]").val(0);			
+			$("input[name=hits_v_total_NoSound]").val(0);			
+			$("input[name=workingAT_NOSound]").val(0);		
+			$("input[name=avgTimePV_NoSound]").val(0);					
+			$("input[name=minEEG]").val(12);
+			$("input[name=maxEEG]").val(25);
+			$("input[name=audioWeight]").val(0.5);			
+			$("input[name=videoWeight]").val(0.5);
+			$("input[name=taskMin]").val(40);
+			$("input[name=taskMax]").val(10);			
+			$("input[name=sroMin]").val(15);
+			$("input[name=sroMax]").val(70);
+			$("input[name=iarMin]").val(3);			
+			$("input[name=iarMax]").val(12);
+			$("input[name=taskAvgWeight]").val(0.35);
+			$("input[name=sroWeight]").val(0.55);			
+			$("input[name=iarWeight]").val(0.1);
+			$("input[name=hitsVsTotalWeight]").val(0.35);
+			$("input[name=avgTimeWeight]").val(0.15);			
+			$("input[name=avgTimeMin_NOSound]").val(0.33);
+			$("input[name=avgTimeMax_NoSound]").val(0.32);
+			$("input[name=hitsVsTotalNoSoundWeight]").val(0.35);			
+			$("input[name=avgTimeNoSoundWeight]").val(0.15);
+			$("input[name=hrv_Weight]").val(0.4);
+			$("input[name=EEG_Weight]").val(0.3);			
+			$("input[name=IM_Weight]").val(0.15);
+			$("input[name=FL_Weight]").val(0.15);
+		});
+	});
+
+	$(function () 
+	{
+		$("#nextAthlete").click(function() 
+		{
+			$("input[name=hrv_Low]").val(0);
+			$("input[name=hrv_Mid]").val(0);
+			$("input[name=hrv_High]").val(0);
+			$("input[name=percHRV]").val(0);
+			$("input[name=audio_EEG]").val(0);
+			$("input[name=video_EEG]").val(0);
+			$("input[name=percEEG]").val(0);
+			$("input[name=taskAvg_IM]").val(0);
+			$("input[name=sro_IM]").val(0);
+			$("input[name=iar_IM]").val(0);
+			$("input[name=percIM]").val(0);
+			$("input[name=hits_Sounds_FL]").val(0);
+			$("input[name=misses_Sound_FL]").val(0);
+			$("input[name=avgTime_Sound_FL]").val(0);
+			$("input[name=hits_NoSound_FL]").val(0);
+			$("input[name=misses_NoSound_FL]").val(0);
+			$("input[name=avgTime_NoSound_FL]").val(0);
+			$("input[name=percFitLight]").val(0);
+			$("input[name=straightCalc]").val(0);
+
+		});
+	});
+
+</script>
+
+</head>
+<body>
+	<div class="container" style="margin-top: 2.5em">
+		<div class="row">
+			<div class="col-3 col-sm" style="text-align: center"> <img src="MAT.jpg" width="425" height="175" alt="BioQ"></div>
+			<div class="col-3 col-sm" style="margin-top:4.5em; text-align:right; padding: 10px; font-family: 'ZCOOL QingKe HuangYou', cursive; font-size:25px">Powered By:</div>
+			<div class="col-3 col-sm" style="text-align: left; padding: 25px"><img style="margin-top: 1em" src="bioQ.png" width="75" height="125" alt="BioQ"></div>
+		</div>
+	</div>
+
+	<div class="container">
+		<h4 style="margin-top: .5em; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong><em>BioQ Scoring</em></strong></h4>
+		<div class="card-group">
+			  <div class="card">			  		  		
+				    <div class="card-body">
+				    	<div style="background-color:red; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>CALM</em></strong></h5></div>
+				      	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Low:</strong></p>
+				      		<input style="height:25px" type="text" class="form-control" name="hrv_Low" value=0> 	
+				      	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Mid:</strong> </p>
+				      		<input style="height:25px" type="text" class="form-control" name="hrv_Mid" value=0>
+				      	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>High: </strong></p>
+				      		<input style="height:25px" type="text" class="form-control" name="hrv_High" value=0>
+				      	<p class="card-text" style="font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>HRV%: </strong></p>
+				      		<input style="height:25px" type="text" class="form-control" name="percHRV" value=0>
+				    </div>	
+
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:orange; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>FOCUSED</em></strong></h5></div>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Audio:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="audio_EEG" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Video: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="video_EEG" value=0>
+				    	<p class="card-text" style="font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>EEG%:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="percEEG" value=0>
+				    </div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:green; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>ENGAGED</em></strong></h5></div>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Task Avg: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="taskAvg_IM" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>SRO: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="sro_IM" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>IAR: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="iar_IM" value=0>
+				    	<p class="card-text" style="font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>IM%: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="percIM" value=0>
+				    </div>
+			  </div>
+		</div>		
+	</div>
+	<div class="container">
+		<div class="card-group">
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:purple; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>INTEGRATED with Sound</em></strong></h5></div>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Hits:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="hits_Sounds_FL" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Misses:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="misses_Sound_FL" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Avg Time: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="avgTime_Sound_FL" value=0>
+				    </div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:purple; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>INTEGRATED w/o Sound</em></strong></h5></div>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Hits: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="hits_NoSound_FL" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Misses:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="misses_NoSound_FL" value=0>
+				    	<p class="card-text" style="color:red; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Avg Time: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="avgTime_NoSound_FL" value=0>
+				    	<p class="card-text" style="font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Fit Light%:</strong> </p>
+				    		<input style="height:25px" type="text" class="form-control" name="percFitLight" value=0>
+				    </div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:blue; font-family: 'ZCOOL QingKe HuangYou', cursive; color:white"><h5 class="card-title"><strong><em>BioQ</em></strong></h5></div>
+				    	<p class="card-text" style="font-family: 'ZCOOL QingKe HuangYou', cursive"><strong>Straight Calc: </strong></p>
+				    		<input style="height:25px" type="text" class="form-control" name="straightCalc" value=0>
+				    		<button type="button" style="margin-top:1em" class="btn btn-large btn-primary float-center" id="nextAthlete">Next Athlete</button>
+
+		<!--		    	<p class="card-text">Curved SQ Root: </p>
+				    		<input type="text" class="form-control" name="curvedSqRoot" value=0>
+				    	<p class="card-text">SAT Method: </p>
+				    		<input type="text" class="form-control" name="SATMethod" value=0>
+				    	<p class="card-text">Randomizer: </p>
+				    		<input type="text" class="form-control" name="randomizer" value=0>
+				    	<div class="col-6">	        
+						    <button type="button" class="btn btn-large btn-info float-right" id="calculate">Calculate BioQ</button>   -->
+					    </div>
+				    </div>
+				    
+			  </div>
+			  
+		</div>	
+					
+	<!--  	<button type="button" class="btn btn-large btn-warning float-right" id="settings">Settings</button>-->
+	</div></br></br></br></br>
+	
+	<div style="height: 300px; background-color: #6495ed; text-align:center"></div>
+	</br></br></br></br></br>
+	<div class="container">
+		<h4 style="margin-top: 2em; font-family: 'ZCOOL QingKe HuangYou', cursive"><strong><em>Settings</em></strong></h4>
+		<div class="card-group">
+			  <div class="card">			  		  		
+				    <div class="card-body">
+				    	<div style="background-color:red; color:white">
+						<h5 class="card-title">CALM</h5></div>
+			      		<p class="card-text">Working Value: </p>
+			      			<input type="text" class="form-control" name="workingValue" value=0> 	
+			      		<p class="card-text">Min: </p>
+			      			<input type="text" class="form-control" name="minHRV" value=0>
+			      		<p class="card-text">Max: </p>
+			      			<input type="text" class="form-control" name="maxHRV" value=0>
+			      		<p class="card-text" style="color:red">Low Weight: </p>
+			      			<input type="text" class="form-control" name="lowWeight" value=0.03>
+			      		<p class="card-text" style="color:red">Mid Weight: </p>
+			      			<input type="text" class="form-control" name="midWeight" value=0.19>
+			      		<p class="card-text" style="color:red">High Weight: </p>
+			      			<input type="text" class="form-control" name="highWeight" value=0.58>
+			    	</div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+			    		<div style="background-color:orange; color:white"><h5 class="card-title">FOCUSED</h5></div>
+			    		<p class="card-text" style="color:red">Min: </p>
+			    			<input type="text" class="form-control" name="minEEG" value=12>
+			    		<p class="card-text" style="color:red">Max: </p>
+			    			<input type="text" class="form-control" name="maxEEG" value=25>
+			    		<p class="card-text">PV: </p>
+			    			<input type="text" class="form-control" name="pv" value=0>
+			    		<p class="card-text">Working Audio: </p>
+			    	  		<input type="text" class="form-control" name="workingAudio" value=0>
+			    	  	<p class="card-text">Working Video: </p>
+			    	  		<input type="text" class="form-control" name="workingVideo" value=0>
+			   		   	<p class="card-text" style="color:red">Audio Weight: </p>
+			    	  		<input type="text" class="form-control" name="audioWeight" value=0.5>
+			    	  	<p class="card-text" style="color:red">Video Weight: </p>
+			    	  		<input type="text" class="form-control" name="videoWeight" value=0.5>
+			    	</div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:green; color:white"><h5 class="card-title">ENGAGED</h5></div>
+				    	<p class="card-text" style="color:red">Task Avg Min: </p>
+				    		<input type="text" class="form-control" name="taskMin" value=40>
+				    	<p class="card-text" style="color:red">Task Avg Max: </p>
+				    		<input type="text" class="form-control" name="taskMax" value=10>
+				    	<p class="card-text">Task Avg PV: </p>
+				    		<input type="text" class="form-control" name="taskPV" value=0>
+				    	<p class="card-text">Working TA: </p>
+				    		<input type="text" class="form-control" name="workingTA" value=0>
+				    	<p class="card-text" style="color:red">SRO Min: </p>
+				    		<input type="text" class="form-control" name="sroMin" value=15>
+				    	<p class="card-text" style="color:red">SRO Max: </p>
+				    		<input type="text" class="form-control" name="sroMax" value=70>
+				    	<p class="card-text">SRO PV: </p>
+				    		<input type="text" class="form-control" name="sroPV" value=0>
+				    	<p class="card-text">Working SRO: </p>
+				    		<input type="text" class="form-control" name="workingSRO" value=0>
+				    	<p class="card-text" style="color:red">IAR Min: </p>
+				    		<input type="text" class="form-control" name="iarMin" value=3>
+				    	<p class="card-text" style="color:red">IAR Max: </p>
+				    		<input type="text" class="form-control" name="iarMax" value=12>
+				    	<p class="card-text">IAR PV: </p>
+				    		<input type="text" class="form-control" name="iarPV" value=0>
+				    	<p class="card-text">Working IAR: </p>
+				    		<input type="text" class="form-control" name="workingIAR" value=0>
+				    	<p class="card-text" style="color:red">Task Avg Weight: </p>
+				    		<input type="text" class="form-control" name="taskAvgWeight" value=0.35>
+				    	<p class="card-text" style="color:red">SRO Weight: </p>
+				    		<input type="text" class="form-control" name="sroWeight" value=0.55>
+				    	<p class="card-text" style="color:red">IAR Weight: </p>
+				    		<input type="text" class="form-control" name="iarWeight" value=0.1>
+				    </div>
+			  </div>
+		</div>		
+	</div>
+	<div class="container">
+		<div class="card-group">
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:purple; color:white"><h5 class="card-title">INTEGRATION with Sound</h5></div>
+				    	<p class="card-text">Total: </p>	
+				    		<input type="text" class="form-control" name="total_Sound" value=0>
+				    	<p class="card-text">Hits vs. Total: </p>
+				    		<input type="text" class="form-control" name="hits_v_total_Sound" value=0>
+				    	<p class="card-text">Working AT: </p>
+				    		<input type="text" class="form-control" name="workingAT_Sound" value=0>
+				    	<p class="card-text" style="color:red">Hits vs. Total Weight: </p>
+				    		<input type="text" class="form-control" name="hitsVsTotalWeight" value=0.35>
+				    	<p class="card-text" style="color:red">Avg Time Weight: </p>
+				    		<input type="text" class="form-control" name="avgTimeWeight" value=0.15>
+				    </div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:purple; color:white"><h5 class="card-title">INTEGRATION without Sound</h5></div>
+				    	<p class="card-text">Total: </p>
+				    		<input type="text" class="form-control" name="total_NoSound" value=0>
+				    	<p class="card-text">Hits vs. Total: </p>
+				    		<input type="text" class="form-control" name="hits_v_total_NoSound" value=0>
+				    	<p class="card-text">Working AT: </p>
+				    		<input type="text" class="form-control" name="workingAT_NOSound" value=0>
+				    	<p class="card-text" style="color:red">Avg Time min: </p>
+				    		<input type="text" class="form-control" name="avgTimeMin_NOSound" value=0.55>
+				    	<p class="card-text" style="color:red">Avg Time Max: </p>
+				    		<input type="text" class="form-control" name="avgTimeMax_NoSound" value=0.32>
+				    	<p class="card-text">Avg Time PV: </p>
+				    		<input type="text" class="form-control" name="avgTimePV_NoSound" value=0>
+				    	<p class="card-text" style="color:red">Hits vs. Total Weight: </p>
+				    		<input type="text" class="form-control" name="hitsVsTotalNoSoundWeight" value=0.35>
+				    	<p class="card-text" style="color:red">Avg Time Weight: </p>
+				    		<input type="text" class="form-control" name="avgTimeNoSoundWeight" value=0.15>
+				    </div>
+			  </div>
+			  <div class="card">
+				    <div class="card-body">
+				    	<div style="background-color:blue; color:white"><h5 class="card-title">Final Score</h5></div>
+				    	<p class="card-text" style="color:red">HRV Weight: </p>
+				    		<input type="text" class="form-control" name="hrv_Weight" value=0.4>
+				    	<p class="card-text" style="color:red">EEG Weight: </p>
+				    		<input type="text" class="form-control" name="EEG_Weight" value=0.3>
+				    	<p class="card-text" style="color:red">SIM Weight: </p>
+				    		<input type="text" class="form-control" name="IM_Weight" value=0.15>
+				    	<p class="card-text" style="color:red">FL Weight: </p>
+				    		<input type="text" class="form-control" name="FL_Weight" value=0.15>
+				    	<button type="button" class="btn btn-large btn-warning float-right" style="margin-top:2em" id="default">Default Settings</button>
+				    </div>
+			  </div>
+		</div>			
+	</div>
+	
+
 </body>
 </html>
